@@ -1,39 +1,37 @@
-from fileinput import close
-from os import write
-from pprint import pprint
-from tkinter.font import names
+
+
 
 
 class Product:
-    def __init__(self,name='str', weight=float, category='str'):
+    def __init__(self,name='Potato', weight=50.5, category='Vegetables'):
         self.name = name
         self.wight = weight
         self.category = category
 
     def __str__(self):
-        return f" {self.name}, {self.wight}, {self.category}"
+        return f"{self.name}, {self.wight}, {self.category}"
 
 
-
-class Shop:
+class Shop(Product):
     def __init__(self):
         self.__file_name = 'products.txt'
 
     def get_products(self):
         file = open(self.__file_name, 'r')
-        pprint(file.read())
+        products = file.read()
         file.close()
-        return f'{self.__file_name}'
+        return products
 
-    def add(self, *products):
-        self.products = Product()
-        for self.products.name in self.__file_name:
-            if self.products.name in self.get_products():
-                return f'Продукт {self.products.name} уже есть в магазине'
+    def add(self,*products):
+        current_products = self.get_products()
+        file = open(self.__file_name, 'a')
+        for product in products:
+            if str(product) not in current_products:
+                file.write(str(product) + '\n')
+                current_products += str(product) + '\n'
             else:
-                file = open(self.__file_name,'w')
-                file.write(f'\n{self.products}')
-                file.close()
+                print(f'Продукт {product} уже есть в магазине')
+        file.close()
 
 s1 = Shop()
 p1 = Product('Potato', 50.5, 'Vegetables')
